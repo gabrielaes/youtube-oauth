@@ -1,0 +1,15 @@
+{
+  "name": "youtube-oauth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mack Levine <mackplevine@gmail.com> (http://github.com/macklevine)",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.4.3",
+    "googleapis": "^12.4.0"
+  }
+}
