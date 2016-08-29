@@ -47,4 +47,4 @@ YouTubeAPIService.prototype.generateAuthURL = function generateAuthURL(){
   return url;
 };
 
-module.exports = new YouTubeAPIService();
+module.exports = YouTubeAPIService;
