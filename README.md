@@ -1,0 +1,1 @@
+This Node.js sample code demonstrates how to use OAuth to set up a server-side web app component to read the contents of a private playlist using Google’s Data API. Read more on Medium [here.](https://medium.com/@mackplevine/using-oauth-to-authenticate-node-js-web-app-access-to-youtubes-data-api-46b4d430c6c5#.28th0b4me)
