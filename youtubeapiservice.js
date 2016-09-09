@@ -22,14 +22,21 @@ YouTubeAPIService.prototype.initialize = function initialize(what){
     self.OAuth2Client.setCredentials({
       refresh_token: refresh_token
     });
-    self.refreshAccessToken()
-      .then(function(response){
-        console.log(self.OAuth2Client);
-        self.youtube = google.youtube({
-          version: 'v3',
-          auth: self.OAuth2Client
+    return new Promise(function(resolve, reject){
+      self.refreshAccessToken()
+        .then(function(response){
+          console.log(self.OAuth2Client);
+          self.youtube = google.youtube({
+            version: 'v3',
+            auth: self.OAuth2Client
+          });
+          resolve('YouTube oAuth client authenticated.');
+        })
+        .catch(function(err){
+          console.log(err);
+          reject(err);
         });
-      });
+    });
   }
 };
 
