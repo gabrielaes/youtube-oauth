@@ -7,7 +7,7 @@ var OAuth2 = google.auth.OAuth2;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 var REDIRECT_URL = process.env.REDIRECT_URL;
-var refresh_token = process.env.refresh_token;
+var refresh_token = process.env.REFRESH_TOKEN;
 
 var YouTubeAPIService = function YouTubeAPIService(){
   this.OAuth2Client = null;
@@ -18,25 +18,33 @@ YouTubeAPIService.prototype.initialize = function initialize(what){
   var self = this;
   if(what==='Client'){
     self.OAuth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
-    console.log(self.OAuth2Client);
   }else if(what==='Tokens'){
     self.OAuth2Client.setCredentials({
       refresh_token: refresh_token
     });
-    return new Promise(function(resolve, reject){
-      self.refreshAccessToken()
-        .then(function(tokens){
-          self.youtube = google.youtube({
-            version: 'v3',
-            auth: self.OAuth2Client
-          });
-        })
-        .catch(function(err){
-          //do something with the error message
-          reject('error in authenticating YouTube oAuth client');
-        })
-    });
+    self.refreshAccessToken()
+      .then(function(response){
+        console.log(self.OAuth2Client);
+        self.youtube = google.youtube({
+          version: 'v3',
+          auth: self.OAuth2Client
+        });
+      });
   }
+};
+
+YouTubeAPIService.prototype.refreshAccessToken = function refreshAccessToken(){
+  var self = this;
+  return new Promise(function(resolve, reject){
+    self.OAuth2Client.refreshAccessToken(function(err, tokens){
+      if(err){
+        //do something with the error
+        console.log(err);
+        return reject('error in authenticating YouTube oAuth client.');
+      }
+      resolve(tokens);
+    });
+  });
 };
 
 YouTubeAPIService.prototype.generateAuthURL = function generateAuthURL(){
@@ -48,9 +56,13 @@ YouTubeAPIService.prototype.generateAuthURL = function generateAuthURL(){
   return url;
 };
 
+//for getting a token from a code fetched from the consent screen.
 YouTubeAPIService.prototype.getToken = function getToken(code){
   var self = this;
   self.OAuth2Client.getToken(code, function(err, tokens){
+    if(err){
+      console.log(err);
+    }
     console.log(tokens);
   });
 };
