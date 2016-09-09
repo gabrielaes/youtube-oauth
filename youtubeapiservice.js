@@ -25,7 +25,6 @@ YouTubeAPIService.prototype.initialize = function initialize(what){
     return new Promise(function(resolve, reject){
       self.refreshAccessToken()
         .then(function(response){
-          console.log(self.OAuth2Client);
           self.youtube = google.youtube({
             version: 'v3',
             auth: self.OAuth2Client

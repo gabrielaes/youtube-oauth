@@ -16,4 +16,21 @@ var youTubeAPIService = new YouTubeAPIService();
 //use the below to initialize the youtube property on your service
 //and set the authorization for the youtube API.
 youTubeAPIService.initialize('Client');
-youTubeAPIService.initialize('Tokens');
+youTubeAPIService.initialize('Tokens')
+  .then(function(){
+    youTubeAPIService.youtube.playlistItems.list({
+      playlistId : 'dpYFG4qwrvU&list=RDdpYFG4qwrvU',
+      part : 'snippet',
+      maxResults: '50'
+    }, function(err, data){
+      if(err){
+        console.log(err);
+        //do something to handle the error
+        return err;
+      }
+      if(data){
+        console.log(data);
+        return data;
+      }
+    });
+  });
